@@ -4,14 +4,14 @@ import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const CreateUserScreen = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     first_name: '',
     last_name: '',
     email: '',
     domain: '',
     gender: '',
-    avatar:'https://robohash.org/sintessequaerat.png?size=200x200&set=set1',
+    avatar: 'https://robohash.org/sintessequaerat.png?size=200x200&set=set1',
     available: false // Assuming available is a boolean
   });
   const [loading, setLoading] = useState(false);
@@ -31,21 +31,21 @@ const CreateUserScreen = () => {
     try {
       const response = await axios.post('https://team-manager-api-8qc4.vercel.app/api/users/', userData);
       console.log('User created successfully:', response.data);
-      // Reset form fields
+     
       setUserData({
         first_name: '',
         last_name: '',
         email: '',
         domain: '',
         gender: '',
-        avatar:'',
+        avatar: '',
         available: false
       });
       navigate('/')
-      // Display success message or redirect
+     
     } catch (error) {
       console.error('Error creating user:', error);
-      setError('Failed to create user. Please try again.'); // Update error state
+      setError('Failed to create user. Please try again.'); 
     } finally {
       setLoading(false);
     }

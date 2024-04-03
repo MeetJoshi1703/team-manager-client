@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from '../../components/Card/Card';
-import { BsPlus } from 'react-icons/bs'; // Import the plus icon
+import { BsPlus } from 'react-icons/bs'; 
 import "./homeScreen.css"
 import { Form, FormControl, Button, } from 'react-bootstrap';
-import {useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
@@ -23,12 +23,12 @@ const HomeScreen = () => {
   //   availability: null
   // });
   const [searchContent, setSearchContent] = useState({
-  searchText: '',
-  domain: [],
-  gender: '',
-  available: null
-});
-  
+    searchText: '',
+    domain: [],
+    gender: '',
+    available: null
+  });
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -44,7 +44,7 @@ const HomeScreen = () => {
     };
 
     fetchUsers();
-  }, [currentPage,showModal]); // Fetch users when currentPage changes
+  }, [currentPage, showModal]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -70,7 +70,7 @@ const HomeScreen = () => {
         const updatedDomain = checked
           ? [...searchContent.domain, value]
           : searchContent.domain.filter(domain => domain !== value);
-  
+
         setSearchContent({ ...searchContent, domain: updatedDomain });
       } else {
         setSearchContent({ ...searchContent, [name]: checked });
@@ -79,7 +79,7 @@ const HomeScreen = () => {
       setSearchContent({ ...searchContent, [name]: value });
     }
   };
-  
+
 
   // const handleAvailabilityChange = (event) => {
   //   setSearchContent({ ...searchContent, availability: event.target.checked });
@@ -94,37 +94,37 @@ const HomeScreen = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
-      let queryParams = `?page=${currentPage}`; // Start with page parameter
-  
+      let queryParams = `?page=${currentPage}`; 
+
       // Add search text parameter
       if (searchContent.searchText.trim()) {
         queryParams += `&searchText=${searchContent.searchText.trim()}`;
       }
-  
+
       // Add gender parameter
       if (searchContent.gender) {
         queryParams += `&gender=${searchContent.gender}`;
       }
-  
+
       // Add domain parameter
       if (searchContent.domain.length > 0) {
         queryParams += `&domain=${searchContent.domain.join(',')}`;
       }
-  
+
       // Add availability parameter
       if (searchContent.availability !== null) {
         queryParams += `&available=${searchContent.available}`;
       }
-  
+
       const response = await axios.get(`https://team-manager-api-8qc4.vercel.app/api/users/${queryParams}`);
       const { users, totalPages: totalPagesCount } = response.data;
       console.log(response.data);
       setUsers(users);
       setTotalPages(totalPagesCount);
       setLoading(false);
-  
+
     } catch (error) {
       console.error('Error searching users:', error);
     }
@@ -133,123 +133,122 @@ const HomeScreen = () => {
 
   return (
     <>
-    <div>
-      <div className='searchbox'>
-        <Form className="d-flex homescreen-form" onSubmit={handleFormSubmit}>
-        <h2>Search users: </h2>
-    <FormControl
-      type="search"
-      placeholder="Search"
-      className="me-2"
-      aria-label="Search"
-      name="searchText"
-      value={searchContent.searchText}
-      onChange={handleFormValueChange}
-    />
-    <Form.Group controlId="formGender" className="me-2 gender">
-    <Form.Label>Gender</Form.Label>
-    <Form.Control
-      as="select"
-      name="gender"
-      
-      value={searchContent.gender}
-      onChange={handleFormValueChange}
-    >
-      <option value="">Select Gender</option>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-      <option value="Agender">Agender</option>
-      <option value="Bigender">Bigender</option>
-      <option value="Polygender">Polygender</option>
-      {/* Add more gender options as needed */}
-    </Form.Control>
-  </Form.Group>
+      <div>
+        <div className='searchbox'>
+          <Form className="d-flex homescreen-form" onSubmit={handleFormSubmit}>
+            <h2>Search users: </h2>
+            <FormControl
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              name="searchText"
+              value={searchContent.searchText}
+              onChange={handleFormValueChange}
+            />
+            <Form.Group controlId="formGender" className="me-2 gender">
+              <Form.Label>Gender</Form.Label>
+              <Form.Control
+                as="select"
+                name="gender"
 
-    <Form.Group controlId="formDomain" className="me-2 domain">
-  <Form.Label>Domain</Form.Label>
-  <div className='domain-fields'>
-    <Form.Check
-      inline
-      label="Sales"
-      type="checkbox"
-      name="domain"
-      value="Sales"
-      checked={searchContent.domain.includes("Sales")}
-      onChange={handleFormValueChange}
-    />
-    <Form.Check
-      inline
-      label="Finance"
-      type="checkbox"
-      name="domain"
-      value="Finance"
-      checked={searchContent.domain.includes("Finance")}
-      onChange={handleFormValueChange}
-    />
-    <Form.Check
-      inline
-      label="Marketing"
-      type="checkbox"
-      name="domain"
-      value="Marketing"
-      checked={searchContent.domain.includes("Marketing")}
-      onChange={handleFormValueChange}
-    />
-    <Form.Check
-      inline
-      label="Business Development"
-      type="checkbox"
-      name="domain"
-      value="Business Development"
-      checked={searchContent.domain.includes("Business Development")}
-      onChange={handleFormValueChange}
-    />
-    <Form.Check
-      inline
-      label="UI"
-      type="checkbox"
-      name="domain"
-      value="UI"
-      checked={searchContent.domain.includes("UI")}
-      onChange={handleFormValueChange}
-    />
-    <Form.Check
-      inline
-      label="IT"
-      type="checkbox"
-      name="domain"
-      value="IT"
-      checked={searchContent.domain.includes("IT")}
-      onChange={handleFormValueChange}
-    />
-    {/* Add more domain options as needed */}
-  </div>
-    </Form.Group>
-    <Form.Group controlId="formAvailability" className="me-2">
-    <Form.Label>User Availability</Form.Label>
-      <Form.Check
-        inline
-        label="Available"
-        type="checkbox"
-        name="available"
-        checked={searchContent.available}
-        onChange={handleFormValueChange}
-      />
-    </Form.Group>
-    <Button type="submit">Search</Button> 
-  </Form>
+                value={searchContent.gender}
+                onChange={handleFormValueChange}
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Agender">Agender</option>
+                <option value="Bigender">Bigender</option>
+                <option value="Polygender">Polygender</option>
+                {/* Add more gender options as needed */}
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="formDomain" className="me-2 domain">
+              <Form.Label>Domain</Form.Label>
+              <div className='domain-fields'>
+                <Form.Check
+                  inline
+                  label="Sales"
+                  type="checkbox"
+                  name="domain"
+                  value="Sales"
+                  checked={searchContent.domain.includes("Sales")}
+                  onChange={handleFormValueChange}
+                />
+                <Form.Check
+                  inline
+                  label="Finance"
+                  type="checkbox"
+                  name="domain"
+                  value="Finance"
+                  checked={searchContent.domain.includes("Finance")}
+                  onChange={handleFormValueChange}
+                />
+                <Form.Check
+                  inline
+                  label="Marketing"
+                  type="checkbox"
+                  name="domain"
+                  value="Marketing"
+                  checked={searchContent.domain.includes("Marketing")}
+                  onChange={handleFormValueChange}
+                />
+                <Form.Check
+                  inline
+                  label="Business Development"
+                  type="checkbox"
+                  name="domain"
+                  value="Business Development"
+                  checked={searchContent.domain.includes("Business Development")}
+                  onChange={handleFormValueChange}
+                />
+                <Form.Check
+                  inline
+                  label="UI"
+                  type="checkbox"
+                  name="domain"
+                  value="UI"
+                  checked={searchContent.domain.includes("UI")}
+                  onChange={handleFormValueChange}
+                />
+                <Form.Check
+                  inline
+                  label="IT"
+                  type="checkbox"
+                  name="domain"
+                  value="IT"
+                  checked={searchContent.domain.includes("IT")}
+                  onChange={handleFormValueChange}
+                />
+              </div>
+            </Form.Group>
+            <Form.Group controlId="formAvailability" className="me-2">
+              <Form.Label>User Availability</Form.Label>
+              <Form.Check
+                inline
+                label="Available"
+                type="checkbox"
+                name="available"
+                checked={searchContent.available}
+                onChange={handleFormValueChange}
+              />
+            </Form.Group>
+            <Button type="submit">Search</Button>
+          </Form>
+        </div>
+
+
+        <div className="create-user-button">
+          <Link to='/user'>
+            <Button variant="primary">
+              <BsPlus /> Create User
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      
-      <div className="create-user-button">
-      <Link to='/user'>
-        <Button variant="primary">
-          <BsPlus /> Create User
-        </Button>
-      </Link>
-      </div>
-    </div>
-      
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -257,7 +256,7 @@ const HomeScreen = () => {
           {users.map(user => (
             <Card
               className="card"
-              key={user._id} // Assuming the user object has a unique identifier
+              key={user._id} 
               name={`${user.first_name} ${user.last_name}`}
               email={user.email}
               id={user.id}
@@ -266,7 +265,7 @@ const HomeScreen = () => {
               avatar={user.avatar}
               gender={user.gender}
               available={user.available}
-              _id = {user._id}
+              _id={user._id}
             />
           ))};
 
@@ -276,7 +275,7 @@ const HomeScreen = () => {
           </div>
 
 
-          
+
         </div>
       )}
     </>

@@ -10,11 +10,11 @@ const UserScreen = () => {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
-  const { id } = useParams(); // Get the user ID from URL params
+  const { id } = useParams();
 
   useEffect(() => {
     fetchUserData();
-  }, [id,editing]); // Trigger fetchUserData when id changes
+  }, [id,editing]); 
 
   const fetchUserData = async () => {
     try {
@@ -32,13 +32,13 @@ const UserScreen = () => {
 
   const handleDelete = async () => {
     try {
-      // Make a DELETE request to delete the user
+      
       const res = await axios.delete(`https://team-manager-api-8qc4.vercel.app/api/users/${id}`);
       if(res){
         alert("user deleted succesfully")
           ('/');
       }
-      // Redirect to home page after deletion
+      
       
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -47,7 +47,7 @@ const UserScreen = () => {
   const handleUpdate = async (event) => {
     event.preventDefault();
     try {
-      // Make a PUT request to update user data
+      
       const res = await axios.put(`https://team-manager-api-8qc4.vercel.app/api/users/${id}`, userData);
       setUserData(res);
       setEditing(false);
@@ -122,7 +122,7 @@ const UserScreen = () => {
           </Row>
           <Row>
             <Col>
-              {/* Buttons for editing and deleting user data */}
+              
               {!editing && (
                 <>
                   <Button variant="primary" onClick={handleEdit} className="me-2">

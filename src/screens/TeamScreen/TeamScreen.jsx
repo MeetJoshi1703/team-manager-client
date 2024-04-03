@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom'; 
 
 const TeamScreen = () => {
   const [teamData, setTeamData] = useState([]);
@@ -52,7 +52,7 @@ const TeamScreen = () => {
                           <td>{member.name}</td>
                           <td>{member.domain}</td>
                           <td>
-                            {/* Use Link component to route to UserScreen with member_id */}
+                           
                             <Link to={`/user/${team.member_id[idx]}`}>View detail</Link>
                           </td>
                           

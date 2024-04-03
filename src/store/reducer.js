@@ -5,8 +5,8 @@ const initialState = {
     team_id: null,
     name: '',
     description: '',
-    members: [], // Updated to contain objects with username and domain fields
-    member_id: [], // New array to store member IDs
+    members: [], 
+    member_id: [],
   },
   showModal: false,
 };
